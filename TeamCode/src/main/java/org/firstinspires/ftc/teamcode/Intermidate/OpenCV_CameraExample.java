@@ -13,14 +13,6 @@ import org.openftc.easyopencv.OpenCvWebcam;
 @Autonomous(name="OpenCV_CameraExample",group="used")
 //@Disabled
 public class OpenCV_CameraExample extends LinearOpMode {
-
-    private DcMotor motorFL;
-    private DcMotor motorFR;
-    private DcMotor motorBL;
-    private DcMotor motorBR;
-
-
-
     OpenCvWebcam webcam;
     OpenCVPipline.OpenCvPipline pipeline;
     OpenCVPipline.OpenCvPipline.Detection_Positions snapshotAnalysis = OpenCVPipline.OpenCvPipline.Detection_Positions.LEFT; // default
@@ -65,22 +57,6 @@ public class OpenCV_CameraExample extends LinearOpMode {
 
         telemetry.addData("Snapshot post-START analysis", snapshotAnalysis);
         telemetry.update();
-
-
-        // Motors
-
-        motorFL = hardwareMap.dcMotor.get("motorFL");
-        motorFR = hardwareMap.dcMotor.get("motorFR");
-        motorBL = hardwareMap.dcMotor.get("motorBL");
-        motorBR = hardwareMap.dcMotor.get("motorBR");
-
-        // Has the Run_Using_Encoders because all the motors use Encoders throughout the code.
-        // You have to have this if you are running encoders.
-
-        motorFL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motorFR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motorBL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motorBR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
 
