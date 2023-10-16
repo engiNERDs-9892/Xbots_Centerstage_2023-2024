@@ -173,16 +173,12 @@ public class AprilTag_CameraExample extends LinearOpMode
         if (tagOfInterest == null) {
        }
 
-        // The Left is Sleeve 10 (QR Code 10)
         else if (tagOfInterest.id == Left ) {
        }
 
-        // The Middle is Sleeve 20 (QR Code 20)
         else if (tagOfInterest.id == Middle){
         }
 
-
-        // The third else or in this case Right is Sleeve 30 (QR Code 30)
         else {
         }
     }
