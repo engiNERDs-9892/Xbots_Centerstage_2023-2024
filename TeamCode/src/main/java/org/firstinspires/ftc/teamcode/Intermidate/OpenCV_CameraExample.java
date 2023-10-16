@@ -20,8 +20,6 @@ public class OpenCV_CameraExample extends LinearOpMode {
     @Override
     public void runOpMode() {
 
-        // HardwareMap Section (Used to talk to the driver hub for the configuration)
-
 
         // Camera
 
@@ -69,6 +67,7 @@ public class OpenCV_CameraExample extends LinearOpMode {
             case LEFT: // Level 3
             {
 
+
                 break;
 
             }
@@ -82,9 +81,9 @@ public class OpenCV_CameraExample extends LinearOpMode {
                 break;
             }
 
-            case CENTER: // Level 2
+            case
+                    CENTER: // Level 2
             {
-
 
                 break;
             }

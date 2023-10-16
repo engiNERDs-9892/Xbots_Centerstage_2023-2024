@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Intermidate;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -21,6 +22,7 @@ import org.openftc.easyopencv.OpenCvWebcam;
 // This is code so that a separate code can refer to it | This is how the camera can get its data//
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
+@Disabled
 @TeleOp
 public class OpenCVPipline extends LinearOpMode
 {
@@ -64,7 +66,7 @@ public class OpenCVPipline extends LinearOpMode
             // This is in what viewing window the camera is seeing through and it doesn't matter
             // what orientation it is | UPRIGHT, SIDEWAYS_LEFT, SIDEWAYS_RIGHT, etc.
 
-                webcam.startStreaming(1280,720, OpenCvCameraRotation.SIDEWAYS_LEFT);
+                webcam.startStreaming(1280,720, OpenCvCameraRotation.UPRIGHT);
             }
 
             @Override
