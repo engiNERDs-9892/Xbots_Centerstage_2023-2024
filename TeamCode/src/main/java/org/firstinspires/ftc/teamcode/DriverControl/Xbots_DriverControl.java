@@ -190,11 +190,13 @@ public class Xbots_DriverControl extends LinearOpMode {
             // arms
             if (gamepad2.a) {
                 servoArmL.setPosition(.10);
+                servoArmL.setDirection(Servo.Direction.REVERSE);
                 servoArmR.setPosition(.11);
             }
 
             if (gamepad2.b) {
                 servoArmL.setPosition(.43);
+                servoArmL.setDirection(Servo.Direction.REVERSE);
                 servoArmR.setPosition(.45);
             }
 
