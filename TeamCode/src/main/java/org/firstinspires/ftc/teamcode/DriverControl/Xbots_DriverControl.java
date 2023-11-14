@@ -74,11 +74,10 @@ public class Xbots_DriverControl extends LinearOpMode {
     private DcMotor motorBL = null;
     private DcMotor motorFR = null;
     private DcMotor motorBR = null;
+    private DcMotor motorWrist = null;
 
     Servo servoArmL;
     Servo servoArmR;
-    Servo servoWristR;
-    Servo servoWristL;
     Servo servoClawR;
     Servo servoClawL;
     @Override
@@ -90,11 +89,10 @@ public class Xbots_DriverControl extends LinearOpMode {
         motorBL  = hardwareMap.get(DcMotor.class, "motorBL");
         motorFR = hardwareMap.get(DcMotor.class, "motorFR");
         motorBR = hardwareMap.get(DcMotor.class, "motorBR");
+        motorWrist = hardwareMap.get(DcMotor.class, "motorWrist");
 
         servoArmL = hardwareMap.servo.get("servoArmL");
         servoArmR = hardwareMap.servo.get("servoArmR");
-        servoWristL = hardwareMap.servo.get("servoWristL");
-        servoWristR = hardwareMap.servo.get("servoWristR");
         servoClawL = hardwareMap.servo.get("servoClawL");
         servoClawR = hardwareMap.servo.get("servoClawR");
 
@@ -189,6 +187,29 @@ public class Xbots_DriverControl extends LinearOpMode {
                 motorBR.setPower(rightBackPower *.6);
             }
 
+            // arms
+            if (gamepad2.a) {
+                servoArmL.setPosition(.10);
+                servoArmR.setPosition(.11);
+            }
+
+            if (gamepad2.b) {
+                servoArmL.setPosition(.43);
+                servoArmR.setPosition(.45);
+            }
+
+
+            if (gamepad2.left_stick_y <= -0.5) {
+                motorWrist.setPower(.2);
+
+            }
+
+            else if (gamepad2.left_stick_y >= 0.5) {
+                motorWrist.setPower(-.2);
+            }
+            else {
+                motorWrist.setPower(0);
+            }
 
 
             // Show the elapsed game time and wheel power.
