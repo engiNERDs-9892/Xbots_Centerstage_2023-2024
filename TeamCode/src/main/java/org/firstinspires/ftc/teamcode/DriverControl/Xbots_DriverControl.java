@@ -78,6 +78,7 @@ public class Xbots_DriverControl extends LinearOpMode {
     private DcMotor motorWrist=null;
     private DcMotor motorArmL = null;
     private DcMotor motorArmR =null;
+    private DcMotor motorGrab = null;
 
 
     Servo servoClawR;
@@ -94,6 +95,7 @@ public class Xbots_DriverControl extends LinearOpMode {
         motorBR = hardwareMap.get(DcMotor.class, "motorWrist");
         motorArmL = hardwareMap.get(DcMotor.class, "motorArmL");
         motorArmR = hardwareMap.get(DcMotor.class, "motorArmR");
+        motorGrab= hardwareMap.get(DcMotor.class,"motorGrab");
 
         servoClawL = hardwareMap.servo.get("servoClawL");
         servoClawR = hardwareMap.servo.get("servoClawR");
@@ -212,6 +214,17 @@ public class Xbots_DriverControl extends LinearOpMode {
             else{
                 motorWrist.setPower(0);
             }
+
+            if(gamepad2.right_trigger != 0){
+                motorGrab.setPower(1);
+            }
+            if (gamepad2.left_trigger != 0){
+                motorGrab.setPower(-1);
+            }
+            else{
+                motorGrab.setPower(0);
+            }
+
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
