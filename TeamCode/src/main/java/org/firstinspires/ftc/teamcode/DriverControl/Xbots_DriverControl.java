@@ -75,10 +75,10 @@ public class Xbots_DriverControl extends LinearOpMode {
     private DcMotor motorBL = null;
     private DcMotor motorFR = null;
     private DcMotor motorBR = null;
-    private DcMotor motorWrist=null;
-    private DcMotor motorArmL = null;
-    private DcMotor motorArmR =null;
-    private DcMotor motorGrab = null;
+    private DcMotor motorWrist = null;
+    private DcMotor motorArm = null;
+    private DcMotor motorGrabR = null;
+    private DcMotor motorGrabL = null;
 
 
     Servo servoClawR;
@@ -92,10 +92,10 @@ public class Xbots_DriverControl extends LinearOpMode {
         motorBL  = hardwareMap.get(DcMotor.class, "motorBL");
         motorFR = hardwareMap.get(DcMotor.class, "motorFR");
         motorBR = hardwareMap.get(DcMotor.class, "motorBR");
-        motorBR = hardwareMap.get(DcMotor.class, "motorWrist");
-        motorArmL = hardwareMap.get(DcMotor.class, "motorArmL");
-        motorArmR = hardwareMap.get(DcMotor.class, "motorArmR");
-        motorGrab= hardwareMap.get(DcMotor.class,"motorGrab");
+        motorWrist = hardwareMap.get(DcMotor.class, "motorWrist");
+        motorArm = hardwareMap.get(DcMotor.class, "motorArm");
+        motorGrabR= hardwareMap.get(DcMotor.class,"motorGrabR");
+        motorGrabL = hardwareMap.get(DcMotor.class,"motorGrabL");
 
         servoClawL = hardwareMap.servo.get("servoClawL");
         servoClawR = hardwareMap.servo.get("servoClawR");
@@ -114,6 +114,8 @@ public class Xbots_DriverControl extends LinearOpMode {
         motorBL.setDirection(DcMotor.Direction.REVERSE);
         motorFR.setDirection(DcMotor.Direction.FORWARD);
         motorBR.setDirection(DcMotor.Direction.FORWARD);
+
+        motorArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Wait for the game to start (driver presses PLAY)
         telemetry.addData("Status", "Initialized");
@@ -192,37 +194,35 @@ public class Xbots_DriverControl extends LinearOpMode {
             }
 
            if(gamepad2.right_stick_y >=0.05) {
-               motorArmL.setPower(.7);
-               motorArmR.setDirection(DcMotorSimple.Direction.REVERSE);
-               motorArmR.setPower(.7);
+               motorArm.setPower(.4);
            }
            else if (gamepad2.right_stick_y <= -0.05){
-               motorArmL.setPower(.7);
-               motorArmL.setDirection(DcMotorSimple.Direction.REVERSE);
-               motorArmR.setPower(.7);
+               motorArm.setPower(-.4);
            } else {
-               motorArmL.setPower(0);
-               motorArmR.setPower(0);
+               motorArm.setPower(0);
            }
 
             if(gamepad2.left_stick_y >= 0.05){
-                motorWrist.setPower(-.2);
+                motorWrist.setPower(-.25);
             }
             else if (gamepad2.left_stick_y <= -0.05){
-                motorWrist.setPower(.2);
+                motorWrist.setPower(.25);
             }
             else{
                 motorWrist.setPower(0);
             }
 
             if(gamepad2.right_trigger != 0){
-                motorGrab.setPower(1);
+                motorGrabR.setPower(1);
+                motorGrabL.setPower(1);
             }
             if (gamepad2.left_trigger != 0){
-                motorGrab.setPower(-1);
+                motorGrabR.setPower(-1);
+                motorGrabL.setPower(-1);
             }
             else{
-                motorGrab.setPower(0);
+                motorGrabR.setPower(0);
+                motorGrabL.setPower(0);
             }
 
 
