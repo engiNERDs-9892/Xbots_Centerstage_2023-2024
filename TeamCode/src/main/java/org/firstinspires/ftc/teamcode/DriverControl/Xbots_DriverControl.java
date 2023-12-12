@@ -115,7 +115,10 @@ public class Xbots_DriverControl extends LinearOpMode {
         motorFR.setDirection(DcMotor.Direction.FORWARD);
         motorBR.setDirection(DcMotor.Direction.FORWARD);
 
+        servoClawL.setDirection(Servo.Direction.REVERSE);
+
         motorArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorWrist.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Wait for the game to start (driver presses PLAY)
         telemetry.addData("Status", "Initialized");
@@ -225,6 +228,17 @@ public class Xbots_DriverControl extends LinearOpMode {
                 motorGrabL.setPower(0);
             }
 
+            //open Claws
+            if(gamepad2.a) {
+                servoClawL.setPosition(.2);
+                servoClawR.setPosition(.2);
+            }
+
+            //Close Claws
+            if(gamepad2.b) {
+                servoClawL.setPosition(0);
+                servoClawR.setPosition(0);
+            }
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
