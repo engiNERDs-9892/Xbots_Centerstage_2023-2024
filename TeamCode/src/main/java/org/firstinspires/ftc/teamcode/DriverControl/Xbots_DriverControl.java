@@ -236,6 +236,7 @@ public class Xbots_DriverControl extends LinearOpMode {
 
             //Close Claws
             if(gamepad2.b) {
+
                 servoClawL.setPosition(0);
                 servoClawR.setPosition(0);
             }
