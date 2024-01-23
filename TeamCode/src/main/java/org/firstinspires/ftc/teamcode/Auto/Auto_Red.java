@@ -29,38 +29,49 @@
 
 package org.firstinspires.ftc.teamcode.Auto;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
 
 /*
  * This file contains an minimal example of a Linear "OpMode". An OpMode is a 'program' that runs in either
- * the autonomous or the teleop period of an FTC match. The names of OpModes appear on the menu
+ * the autonomous or the TeleOp period of an FTC match. The names of OpModes appear on the menu
  * of the FTC Driver Station. When a selection is made from the menu, the corresponding OpMode
  * class is instantiated on the Robot Controller and executed.
  *
- * This particular OpMode just executes a basic Tank Drive Teleop for a two wheeled robot
+ * This particular OpMode just executes a basic Tank Drive TeleOp for a two wheeled robot
  * It includes all the skeletal structure that all linear OpModes contain.
  *
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Auto Red", group="Linear OpMode")
-@Disabled
+@Autonomous(name="Auto Red", group="Linear OpMode")
+//@Disabled
 public class Auto_Red extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor motorFL;
-    private DcMotor motorBL;
-    private DcMotor motorFR;
-    private DcMotor motorBR;
+    private DcMotor motorFL = null;
+    private DcMotor motorBL = null;
+    private DcMotor motorFR = null;
+    private DcMotor motorBR = null;
+    private DcMotor motorWrist = null;
+    private DcMotor motorArm = null;
+
+    Servo servoClawR;
+    Servo servoClawL;
+
+
     int in = 45;
+    int deg = 4;
+
+
     @Override
     public void runOpMode() {
         telemetry.addData("Status", "Initialized");
@@ -73,6 +84,10 @@ public class Auto_Red extends LinearOpMode {
         motorBL = hardwareMap.get(DcMotor.class, "motorBL");
         motorFR = hardwareMap.get(DcMotor.class, "motorFR");
         motorBR = hardwareMap.get(DcMotor.class, "motorBR");
+        motorWrist = hardwareMap.get(DcMotor.class, "motorWrist");
+        motorArm = hardwareMap.get(DcMotor.class, "motorArm");
+        servoClawL = hardwareMap.servo.get("servoClawL");
+        servoClawR = hardwareMap.servo.get("servoClawR");
 
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
@@ -89,13 +104,19 @@ public class Auto_Red extends LinearOpMode {
         motorBR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
-
+        telemetry.addData("Status", "Initialized");
+        telemetry.update();
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
-        right(70,.6);
+        closeClaw();
+        wristDown(90,.25);
+        openClaw();
+
+
+
+
 
     }
-
     public void forward (int target, double speed) {
         motorFL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorFR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -230,6 +251,131 @@ public class Auto_Red extends LinearOpMode {
         motorFR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorBL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorBR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    }
+
+    public void clockwise (int target, double speed) {
+        motorFL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorFR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorBL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorBR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        motorFL.setDirection(DcMotorSimple.Direction.FORWARD);
+        motorFR.setDirection(DcMotorSimple.Direction.FORWARD);
+        motorBL.setDirection(DcMotorSimple.Direction.FORWARD);
+        motorBR.setDirection(DcMotorSimple.Direction.FORWARD);
+
+        motorFL.setTargetPosition(target * in);
+        motorFR.setTargetPosition(target * in);
+        motorBL.setTargetPosition(target * in);
+        motorBR.setTargetPosition(target * in);
+
+        motorFL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorFR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorBL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorBR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        motorFL.setPower(speed);
+        motorFR.setPower(speed);
+        motorBL.setPower(speed);
+        motorBR.setPower(speed);
+
+        while (opModeIsActive()&&(motorFL.isBusy())){
+        }
+        motorFL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorFR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorBL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorBR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    }
+
+    public void counterClockwise (int target, double speed) {
+        motorFL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorFR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorBL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorBR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        motorFL.setDirection(DcMotorSimple.Direction.REVERSE);
+        motorFR.setDirection(DcMotorSimple.Direction.REVERSE);
+        motorBL.setDirection(DcMotorSimple.Direction.REVERSE);
+        motorBR.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        motorFL.setTargetPosition(target * in);
+        motorFR.setTargetPosition(target * in);
+        motorBL.setTargetPosition(target * in);
+        motorBR.setTargetPosition(target * in);
+
+        motorFL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorFR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorBL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorBR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        motorFL.setPower(speed);
+        motorFR.setPower(speed);
+        motorBL.setPower(speed);
+        motorBR.setPower(speed);
+
+        while (opModeIsActive()&&(motorFL.isBusy())){
+        }
+        motorFL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorFR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorBL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorBR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    }
+
+
+    public void openClaw() {
+        servoClawL.setDirection(Servo.Direction.REVERSE);
+        servoClawR.setDirection(Servo.Direction.FORWARD);
+        servoClawL.setPosition(.2);
+        servoClawR.setPosition(.2);
+    }
+
+    public void  closeClaw() {
+        servoClawL.setDirection(Servo.Direction.REVERSE);
+        servoClawR.setDirection(Servo.Direction.FORWARD);
+
+        servoClawL.setPosition(0);
+        servoClawR.setPosition(0);
+    }
+    public void wristDown (int angle, double speed) {
+        motorWrist.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+
+        motorWrist.setDirection(DcMotorSimple.Direction.REVERSE);
+
+
+        motorWrist.setTargetPosition(angle * deg);
+
+
+        motorWrist.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
+        motorWrist.setPower(speed);
+
+
+        while (opModeIsActive()&&(motorWrist.isBusy())){
+        }
+        motorWrist.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    }
+
+    public void wristUp (int angle, double speed) {
+        motorWrist.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+
+        motorWrist.setDirection(DcMotorSimple.Direction.FORWARD);
+
+
+        motorWrist.setTargetPosition(angle * deg);
+
+
+        motorWrist.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
+        motorWrist.setPower(speed);
+
+
+        while (opModeIsActive()&&(motorWrist.isBusy())){
+        }
+        motorWrist.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
 }
