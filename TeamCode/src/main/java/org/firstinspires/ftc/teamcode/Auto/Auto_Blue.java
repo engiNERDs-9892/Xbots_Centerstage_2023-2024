@@ -105,14 +105,25 @@ public class Auto_Blue extends LinearOpMode {
 
 
         telemetry.addData("Status", "Initialized");
-        telemetry.update();
-        // Wait for the game to start (driver presses PLAY)
+        telemetry.update();// Wait for the game to start (driver presses PLAY)
         waitForStart();
-        closeClaw();
-        wristDown(90,.25);
-        openClaw();
-        sleep(5000);
 
+        /*Placement on Blue Board Side - Center Set Line
+        closeClaw();
+        forward(36,.5);
+        backwards(9,.5);
+        wristDown(150,.25);
+        openClaw();
+        sleep(500);
+        wristUp(100,.5);
+        backwards(24,.5);
+        left(40,.5);
+        */
+
+        //Placement on Blue Board Side - Truss Set Line
+
+
+        //Placement on BLue Board side - Board Set Line
 
 
 
