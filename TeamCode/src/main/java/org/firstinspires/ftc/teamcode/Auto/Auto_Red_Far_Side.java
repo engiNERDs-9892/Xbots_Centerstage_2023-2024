@@ -30,9 +30,7 @@
 package org.firstinspires.ftc.teamcode.Auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -51,9 +49,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Auto Red", group="Linear OpMode")
+@Autonomous(name="Auto Red Far Side", group="Linear OpMode")
 //@Disabled
-public class Auto_Red extends LinearOpMode {
+public class Auto_Red_Far_Side extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
@@ -108,22 +106,24 @@ public class Auto_Red extends LinearOpMode {
         telemetry.update();// Wait for the game to start (driver presses PLAY)
         waitForStart();
 
-        //Placement on Red Board Side - Center Set Line
+        //Placement on Red Far Side - Center Set Line
         closeClaw();
         forward(38,.5);
-        backwards(9,.5);
+        sleep(250);
+        backwards(11,.25);
         wristDown(150,.25);
         openClaw();
         sleep(500);
         wristUp(100,.5);
-        backwards(24,.5);
-        right(40,.5);
+        backwards(20,.25);
+        sleep(500);
+        right(98,.5);
 
 
-        //Placement on Red Board Side - Truss Set Line
+        //Placement on Red Far Side - Truss Set Line
 
 
-        //Placement on Red Board side - Board Set Line
+        //Placement on Red Far side - Board Set Line
 
 
 
