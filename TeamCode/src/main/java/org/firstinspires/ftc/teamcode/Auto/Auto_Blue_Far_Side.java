@@ -36,6 +36,12 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.openftc.easyopencv.OpenCvCamera;
+import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
+import org.openftc.easyopencv.OpenCvWebcam;
+
 /*
  * This file contains an minimal example of a Linear "OpMode". An OpMode is a 'program' that runs in either
  * the autonomous or the TeleOp period of an FTC match. The names of OpModes appear on the menu
@@ -69,6 +75,10 @@ public class Auto_Blue_Far_Side extends LinearOpMode {
     int in = 45;
     int deg = 4;
 
+    OpenCvWebcam webcam;
+    BluePipline.bluePipline pipeline;
+    BluePipline.bluePipline.Detection_Positions snapshotAnalysis = BluePipline.bluePipline.Detection_Positions.RIGHT; // default
+
 
     @Override
     public void runOpMode() {
@@ -101,23 +111,100 @@ public class Auto_Blue_Far_Side extends LinearOpMode {
         motorFR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorBR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
+        // Camera
+
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+        pipeline = new BluePipline.bluePipline();
+        webcam.setPipeline(pipeline);
+
+        webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
+            @Override
+            public void onOpened() {
+                // This is in what viewing window the camera is seeing through and it doesn't matter
+                // what orientation it is | UPRIGHT, SIDEWAYS_LEFT, SIDEWAYS_RIGHT, etc.
+
+                webcam.startStreaming(1280, 720, OpenCvCameraRotation.UPRIGHT);
+            }
+
+            @Override
+            public void onError(int errorCode) {
+            }
+        });
+
+        while (!isStarted() && !isStopRequested()) {
+            telemetry.addData("Realtime analysis", pipeline.getAnalysis());
+            telemetry.update();
+
+            // Don't burn CPU cycles busy-looping in this sample
+            sleep(50);
+        }
+
+        snapshotAnalysis = pipeline.getAnalysis();
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();// Wait for the game to start (driver presses PLAY)
         waitForStart();
 
-        //Placement on Red Far Side - Center Set Line
-        closeClaw();
-        forward(38,.5);
-        sleep(250);
-        backwards(11,.25);
-        wristDown(150,.25);
-        openClaw();
-        sleep(500);
-        wristUp(100,.5);
-        backwards(20,.25);
-        sleep(500);
-        left(98,.5);
+        switch (snapshotAnalysis) {
+            case LEFT: // Level 3
+            {
+                //Placement on Red Far Side - Center Set Line
+                closeClaw();
+                forward(38,.5);
+                sleep(250);
+                backwards(11,.25);
+                wristDown(150,.25);
+                openClaw();
+                sleep(500);
+                wristUp(100,.5);
+                backwards(20,.25);
+                sleep(500);
+                left(98,.5);
+                break;
+            }
+
+
+            case RIGHT: // Level 1
+            {
+                //Placement on Red Far Side - Center Set Line
+                closeClaw();
+                forward(38,.5);
+                sleep(250);
+                backwards(11,.25);
+                wristDown(150,.25);
+                openClaw();
+                sleep(500);
+                wristUp(100,.5);
+                backwards(20,.25);
+                sleep(500);
+                left(98,.5);
+
+
+                break;
+            }
+
+            case CENTER: // Level 2
+            {
+                //Placement on Red Far Side - Center Set Line
+                closeClaw();
+                forward(38,.5);
+                sleep(250);
+                backwards(11,.25);
+                wristDown(150,.25);
+                openClaw();
+                sleep(500);
+                wristUp(100,.5);
+                backwards(20,.25);
+                sleep(500);
+                left(98,.5);
+
+                break;
+            }
+
+
+        }
+
 
         //Placement on Blue Far Side - Truss Set Line
 
