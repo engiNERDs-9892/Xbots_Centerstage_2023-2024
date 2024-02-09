@@ -149,36 +149,40 @@ public class Auto_Blue_Far_Side extends LinearOpMode {
         switch (snapshotAnalysis) {
             case LEFT: // Level 3
             {
-                //Placement on Red Far Side - Center Set Line
+                //Placement on Red Far Side
                 closeClaw();
-                forward(38,.5);
                 sleep(250);
-                backwards(11,.25);
+                forward(32,.5);
+                clockwise(23,.4);
+                forward(2,.5);
+                sleep(250);
                 wristDown(150,.25);
                 openClaw();
                 sleep(500);
                 wristUp(100,.5);
-                backwards(20,.25);
+                left(32,.25);
                 sleep(500);
-                left(98,.5);
+                forward(90,.5);
                 break;
             }
 
 
             case RIGHT: // Level 1
             {
-                //Placement on Red Far Side - Center Set Line
+                //Placement on Red Far Side
                 closeClaw();
-                forward(38,.5);
                 sleep(250);
-                backwards(11,.25);
+                forward(32,.5);
+                counterClockwise(24,.4);
+                backwards(2,.5);
+                sleep(250);
                 wristDown(150,.25);
                 openClaw();
                 sleep(500);
                 wristUp(100,.5);
-                backwards(20,.25);
+                right(34,.25);
                 sleep(500);
-                left(98,.5);
+                backwards(87,.5);
 
 
                 break;
@@ -186,7 +190,7 @@ public class Auto_Blue_Far_Side extends LinearOpMode {
 
             case CENTER: // Level 2
             {
-                //Placement on Red Far Side - Center Set Line
+                //Placement on Red Far Side
                 closeClaw();
                 forward(38,.5);
                 sleep(250);
@@ -205,11 +209,6 @@ public class Auto_Blue_Far_Side extends LinearOpMode {
 
         }
 
-
-        //Placement on Blue Far Side - Truss Set Line
-
-
-        //Placement on BLue Board side - Board Set Line
 
 
 

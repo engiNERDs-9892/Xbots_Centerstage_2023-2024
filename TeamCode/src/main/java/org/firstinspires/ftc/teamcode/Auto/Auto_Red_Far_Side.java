@@ -150,44 +150,70 @@ public class Auto_Red_Far_Side extends LinearOpMode {
         telemetry.update();// Wait for the game to start (driver presses PLAY)
         waitForStart();
 
+        switch (snapshotAnalysis) {
+            case LEFT: // Level 3
+            {
+                closeClaw();
+                forward(29,.5);
+                sleep(250);
+                clockwise(23,.25);
+                closeClaw();
+                forward(12,.5);
+                backwards(7,.5);
+                wristDown(150,.25);
+                openClaw();
+                sleep(500);
+                wristUp(100,.5);
+                left(31,.25);
+                sleep(500);
+                backwards(90,.5);
 
-        /*
-        //Placement on Red Far Side - Center Set Line
-        closeClaw();
-        forward(38,.5);
-        sleep(250);
-        backwards(11,.25);
-        wristDown(150,.25);
-        openClaw();
-        sleep(500);
-        wristUp(100,.5);
-        backwards(20,.25);
-        sleep(500);
-        right(98,.5);
-        */
+                break;
 
-        //Placement on Red Far Side - Left Set Line
-        closeClaw();
-        forward(29,.5);
-        sleep(250);
-        clockwise(23,.25);
-        closeClaw();
-        forward(12,.5);
-        backwards(7,.5);
-        wristDown(150,.25);
-        openClaw();
-        sleep(500);
-        wristUp(100,.5);
-        left(31,.25);
-        sleep(500);
-        backwards(90,.5);
+            }
 
 
+            case RIGHT: // Level 1
+            {
+                closeClaw();
+                forward(27,.5);
+                sleep(250);
+               counterClockwise(24,.5);
+               sleep(250);
+                wristDown(150,.25);
+                openClaw();
+                sleep(500);
+                wristUp(120,.5);
+                right(25,.5);
+                sleep(500);
+                forward(80,.5);
 
-        //Placement on Red Far Side - Truss Set Line
+                break;
 
 
-        //Placement on Red Far side - Board Set Line
+            }
+
+            case CENTER: // Level 2
+            {
+                closeClaw();
+                forward(38,.5);
+                sleep(250);
+                backwards(11,.25);
+                wristDown(150,.25);
+                openClaw();
+                sleep(500);
+                wristUp(100,.5);
+                backwards(20,.25);
+                sleep(500);
+                right(98,.5);
+
+                break;
+            }
+
+
+        }
+
+
 
 
 

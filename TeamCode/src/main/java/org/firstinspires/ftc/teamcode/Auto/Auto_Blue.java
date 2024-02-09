@@ -120,6 +120,18 @@ public class Auto_Blue extends LinearOpMode {
         left(40,.5);
         */
 
+        closeClaw();
+        forward(30,.5);
+        clockwise(23,.5);
+        backwards(1,.4);
+        wristDown(150,.25);
+        openClaw();
+        sleep(500);
+        wristUp(100,.5);
+        left(30,.5);
+        forward(35,.5);
+
+
         //Placement on Blue Board Side - Truss Set Line
 
 
