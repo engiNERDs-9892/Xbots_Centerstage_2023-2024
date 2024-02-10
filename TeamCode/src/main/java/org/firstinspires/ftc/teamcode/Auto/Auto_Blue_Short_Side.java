@@ -32,11 +32,16 @@ package org.firstinspires.ftc.teamcode.Auto;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.openftc.easyopencv.OpenCvCamera;
+import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
+import org.openftc.easyopencv.OpenCvWebcam;
 
 /*
  * This file contains an minimal example of a Linear "OpMode". An OpMode is a 'program' that runs in either
@@ -51,9 +56,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Auto Red", group="Linear OpMode")
-//@Disabled
-public class Auto_Red extends LinearOpMode {
+@Autonomous(name="Auto Blue Short Side", group="Linear OpMode")
+public class Auto_Blue_Short_Side extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
@@ -70,6 +74,10 @@ public class Auto_Red extends LinearOpMode {
 
     int in = 45;
     int deg = 4;
+
+    OpenCvWebcam webcam;
+    BluePipline.bluePipline pipeline;
+    BluePipline.bluePipline.Detection_Positions snapshotAnalysis = BluePipline.bluePipline.Detection_Positions.RIGHT; // default
 
 
     @Override
@@ -103,27 +111,97 @@ public class Auto_Red extends LinearOpMode {
         motorFR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorBR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
+        // Camera
+
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+        pipeline = new BluePipline.bluePipline();
+        webcam.setPipeline(pipeline);
+
+        webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
+            @Override
+            public void onOpened() {
+                // This is in what viewing window the camera is seeing through and it doesn't matter
+                // what orientation it is | UPRIGHT, SIDEWAYS_LEFT, SIDEWAYS_RIGHT, etc.
+
+                webcam.startStreaming(1280, 720, OpenCvCameraRotation.UPRIGHT);
+            }
+
+            @Override
+            public void onError(int errorCode) {
+            }
+        });
+
+        while (!isStarted() && !isStopRequested()) {
+            telemetry.addData("Realtime analysis", pipeline.getAnalysis());
+            telemetry.update();
+
+            // Don't burn CPU cycles busy-looping in this sample
+            sleep(50);
+        }
+
+        snapshotAnalysis = pipeline.getAnalysis();
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();// Wait for the game to start (driver presses PLAY)
         waitForStart();
 
-        //Placement on Red Board Side - Center Set Line
-        closeClaw();
-        forward(38,.5);
-        backwards(9,.5);
-        wristDown(150,.25);
-        openClaw();
-        sleep(500);
-        wristUp(100,.5);
-        backwards(24,.5);
-        right(40,.5);
+        switch (snapshotAnalysis) {
+            case LEFT: // Level 3
+            {
+                //Placement on Blue Short - Left
+                closeClaw();
+                forward(30,.5);
+                clockwise(23,.5);
+                backwards(1,.4);
+                wristDown(150,.25);
+                openClaw();
+                sleep(500);
+                wristUp(100,.5);
+                left(30,.5);
+                forward(35,.5);
+
+                break;
+            }
 
 
-        //Placement on Red Board Side - Truss Set Line
+            case RIGHT: // Level 1
+            {
+                //Placement on Blue Short
+                closeClaw();
+                forward(30,.5);
+                counterClockwise(23,.5);
+                backwards(1,.4);
+                wristDown(150,.25);
+                openClaw();
+                sleep(500);
+                wristUp(100,.5);
+                right(30,.5);
+                backwards(35,.5);
 
 
-        //Placement on Red Board side - Board Set Line
+                break;
+            }
+
+            case CENTER: // Level 2
+            {
+                //Placement on Blue Short
+                closeClaw();
+                forward(36,.5);
+                backwards(9,.5);
+                wristDown(150,.25);
+                openClaw();
+                sleep(500);
+                wristUp(100,.5);
+                backwards(24,.5);
+                left(40,.5);
+
+                break;
+            }
+
+
+        }
+
 
 
 

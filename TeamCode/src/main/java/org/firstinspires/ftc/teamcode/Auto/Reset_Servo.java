@@ -51,7 +51,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 
 @Autonomous(name="Reset Servo", group="Linear OpMode")
-@Disabled
 public class Reset_Servo extends LinearOpMode {
 
     // Declare OpMode members

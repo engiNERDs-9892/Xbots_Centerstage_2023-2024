@@ -30,6 +30,7 @@
 package org.firstinspires.ftc.teamcode.Auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -56,7 +57,6 @@ import org.openftc.easyopencv.OpenCvWebcam;
  */
 
 @Autonomous(name="Auto Blue Far Side", group="Linear OpMode")
-//@Disabled
 public class Auto_Blue_Far_Side extends LinearOpMode {
 
     // Declare OpMode members.

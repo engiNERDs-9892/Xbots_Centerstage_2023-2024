@@ -12,7 +12,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvWebcam;
 
 @Autonomous(name="Blue_Camera_Test",group="used")
-//@Disabled
+@Disabled
 public class Blue_Camera_Test extends LinearOpMode {
 
     private DcMotor motorFL;
